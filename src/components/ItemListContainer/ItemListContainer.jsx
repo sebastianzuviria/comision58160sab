@@ -1,31 +1,21 @@
 import classes from './ItemListContainer.module.css'
-import { useState, useEffect } from 'react'
+import { useAsync } from '../../hooks/useAsync'
 import { getProducts } from '../../asyncMock'
 import ItemList from '../ItemList/ItemList'
 
 const ItemListContainer = ({ greeting }) => {
-    const [products, setProducts] = useState([])
+    const asyncFunction = () => getProducts()
 
-    useEffect(() => {
-        getProducts()
-            .then(result => {
-                setProducts(result)
-            })
-    }, [])
+    const { data: products, loading, error } = useAsync(asyncFunction, [])
 
+    if(loading) {
+        return <h1>Loading...</h1>
+    }
 
-    // console.log(products)
-    // const productsComponents = products.map(prod => {
-    //     return (
-    //         <div key={prod.id}>
-    //             <h1>{prod.name}</h1>
-    //             <img src={prod.img} style={{ width: 100}}/>
-    //             <h2>${prod.price}</h2>
-    //         </div>
-    //     )
-    // })
+    if(error) {
+        return <h1>Hubo un error al cargar los productos</h1>
+    }
 
-    // console.log(productsComponents)
     return (
         <>
             <h1 className={`${classes.color}`}>{greeting}</h1>
