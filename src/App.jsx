@@ -1,18 +1,23 @@
 import './App.css'
-import MercadoLibre from './components/MercadoLibre/MercadoLibre'
-import ItemCount from './components/ItemCount/ItemCount'
+import Navbar from './components/Navbar/Navbar'
 import ItemListContainer from './components/ItemListContainer/ItemListContainer'
-import FormWithValidationHOC from './components/FormWithValidationHOC'
-import TaskFilterRenderProps from './components/TaskFilterRenderProps'
+import ItemDetailContainer from './components/ItemDetailContainer/ItemDetailContainer'
+
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import Button from './components/Button/Button'
 
 const App = () => {
   return (
     <>
-        {/* <MercadoLibre /> */}
-        {/* <ItemCount /> */}
-        {/* <ItemListContainer /> */}
-        {/* <FormWithValidationHOC /> */}
-        <TaskFilterRenderProps />
+      <BrowserRouter>
+        <Navbar />
+        <Routes>
+          <Route path='/' element={<ItemListContainer greeting={'Listado de productos'}/>}/>
+          <Route path='/category/:categoryId' element={<ItemListContainer greeting={'Productos filtrados por categoria'}/>}/>
+          <Route path='/item/:itemId' element={<ItemDetailContainer />}/>
+        </Routes>
+      </BrowserRouter>
+      {/* <Button /> */}
     </>
   )
 }

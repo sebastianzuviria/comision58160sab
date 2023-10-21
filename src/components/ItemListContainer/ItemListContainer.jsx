@@ -1,12 +1,16 @@
 import classes from './ItemListContainer.module.css'
 import { useAsync } from '../../hooks/useAsync'
-import { getProducts } from '../../asyncMock'
+import { getProducts, getProductsByCategory } from '../../asyncMock'
 import ItemList from '../ItemList/ItemList'
+import { useParams } from 'react-router-dom'
 
 const ItemListContainer = ({ greeting }) => {
-    const asyncFunction = () => getProducts()
+    const { categoryId } = useParams()
+    console.log(categoryId)
 
-    const { data: products, loading, error } = useAsync(asyncFunction, [])
+    const asyncFunction = () => categoryId ? getProductsByCategory(categoryId) : getProducts()
+
+    const { data: products, loading, error } = useAsync(asyncFunction, [categoryId])
 
     if(loading) {
         return <h1>Loading...</h1>
@@ -16,11 +20,15 @@ const ItemListContainer = ({ greeting }) => {
         return <h1>Hubo un error al cargar los productos</h1>
     }
 
+    if(products.length === 0) {
+        return <h1>No existen productos para esta categoria</h1>
+    }
+
     return (
-        <>
+        <div style={{ background: 'orange'}} onClick={() => console.log('click en itemlistcontainer')}>
             <h1 className={`${classes.color}`}>{greeting}</h1>
             <ItemList products={products}/>
-        </>
+        </div>
     )
 }
 

@@ -6,6 +6,7 @@ export const useAsync = (asyncFunction, dependencies = []) => {
     const [error, setError] = useState(null)
 
     useEffect(() => {
+        setLoading(true)
         asyncFunction()
             .then(result => {
                 setData(result)
