@@ -1,12 +1,14 @@
+import { memo } from 'react'
 import classes from './ItemListContainer.module.css'
 import { useAsync } from '../../hooks/useAsync'
 import { getProducts, getProductsByCategory } from '../../asyncMock'
 import ItemList from '../ItemList/ItemList'
 import { useParams } from 'react-router-dom'
 
+const MemoizedItemList = memo(ItemList)
+
 const ItemListContainer = ({ greeting }) => {
     const { categoryId } = useParams()
-    console.log(categoryId)
 
     const asyncFunction = () => categoryId ? getProductsByCategory(categoryId) : getProducts()
 
@@ -27,7 +29,7 @@ const ItemListContainer = ({ greeting }) => {
     return (
         <div style={{ background: 'orange'}} onClick={() => console.log('click en itemlistcontainer')}>
             <h1 className={`${classes.color}`}>{greeting}</h1>
-            <ItemList products={products}/>
+            <MemoizedItemList products={products}/>
         </div>
     )
 }

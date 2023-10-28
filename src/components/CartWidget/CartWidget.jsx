@@ -1,10 +1,13 @@
 import cart from './assets/react.svg'
+import { useCart } from '../../context/CartContext'
 
 const CartWidget = () => {
+    const { totalQuantity } = useCart()
+
     return (
         <button>
         <img src={cart} className='btn btn-danger'/>
-            carrito: 0
+            {totalQuantity}
         </button>
     )
 }
