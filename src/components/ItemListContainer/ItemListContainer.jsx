@@ -1,16 +1,17 @@
 import { memo } from 'react'
 import classes from './ItemListContainer.module.css'
 import { useAsync } from '../../hooks/useAsync'
-import { getProducts, getProductsByCategory } from '../../asyncMock'
+// import { getProducts, getProductsByCategory } from '../../asyncMock'
 import ItemList from '../ItemList/ItemList'
 import { useParams } from 'react-router-dom'
+import { getProducts } from '../../services/firebase/firestore/products'
 
 const MemoizedItemList = memo(ItemList)
 
 const ItemListContainer = ({ greeting }) => {
     const { categoryId } = useParams()
 
-    const asyncFunction = () => categoryId ? getProductsByCategory(categoryId) : getProducts()
+    const asyncFunction = () => getProducts(categoryId)//categoryId ? getProductsByCategory(categoryId) : getProducts()
 
     const { data: products, loading, error } = useAsync(asyncFunction, [categoryId])
 
