@@ -11,7 +11,7 @@ const MemoizedItemList = memo(ItemList)
 const ItemListContainer = ({ greeting }) => {
     const { categoryId } = useParams()
 
-    const asyncFunction = () => getProducts(categoryId)//categoryId ? getProductsByCategory(categoryId) : getProducts()
+    const asyncFunction = () => getProducts(categoryId)
 
     const { data: products, loading, error } = useAsync(asyncFunction, [categoryId])
 
